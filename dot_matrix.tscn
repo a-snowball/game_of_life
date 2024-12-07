@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=3 uid="uid://b3s22dtbqp530"]
+
+[ext_resource type="Shader" path="res://dot_matrix.gdshader" id="1_1guyt"]
+[ext_resource type="Texture2D" uid="uid://hoh1nvyinvcy" path="res://icon.svg" id="1_o2crg"]
+[ext_resource type="Texture2D" uid="uid://b7s60f36ffyjg" path="res://tex_Lit.png" id="2_y7e0g"]
+[ext_resource type="Texture2D" uid="uid://3jlnsbtvejv1" path="res://tex_Unlit.png" id="3_2ja8w"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ksd8q"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rl43v"]
+width = 1040
+height = 1040
+noise = SubResource("FastNoiseLite_ksd8q")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdtgw"]
+shader = ExtResource("1_1guyt")
+shader_parameter/gridWidth = 1024
+shader_parameter/unlitTexture = ExtResource("3_2ja8w")
+shader_parameter/litTexture = ExtResource("2_y7e0g")
+shader_parameter/binaryDataTexture = SubResource("NoiseTexture2D_rl43v")
+
+[sub_resource type="Environment" id="Environment_mqjp4"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 1.52
+glow_bloom = 0.28
+glow_hdr_threshold = 0.34
+glow_hdr_scale = 0.92
+
+[node name="Dot Matrix" type="Node2D"]
+
+[node name="Renderer" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fdtgw")
+position = Vector2(960, 540)
+scale = Vector2(15, 15)
+texture = ExtResource("1_o2crg")
+metadata/_edit_lock_ = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mqjp4")
